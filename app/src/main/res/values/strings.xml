@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Switch My Slot</string>
+    <string name="hal_info">hal-info:</string>
+    <string name="app_version_v0_1">App version: v0.1</string>
+    <string name="number_of_slots">Number of slots:</string>
+    <string name="current_slot_suffix">Current slot suffix:</string>
+    <string name="switch_slot_and_reboot">Switch slot and reboot:</string>
+    <string name="current_slot">Current slot:</string>
+    <string name="developed_by_shouko">Developed by Shouko</string>
+    <string name="licensed_under_mit">Licensed under MIT</string>
+</resources>
