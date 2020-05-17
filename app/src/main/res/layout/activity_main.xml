@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/halInfoTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5sp"
+        android:text="@string/hal_info" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5sp"
+        android:text="@string/app_version_v0_1" />
+
+    <TextView
+        android:id="@+id/numberOfSlotsTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5sp"
+        android:text="@string/number_of_slots" />
+
+    <TextView
+        android:id="@+id/CurrentSlotSuffixTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5sp"
+        android:text="@string/current_slot_suffix" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_gravity="center"
+        android:padding="5sp"
+        android:text="@string/swtich_slot_and_reboot" />
+
+    <Switch
+        android:id="@+id/switcher"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/currentSlotTV"
+        android:layout_marginTop="20dp"
+        android:textSize="20sp"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5sp"
+        android:text="@string/current_slot" />
+
+    <TextView
+        android:layout_marginTop="25sp"
+        android:textSize="15sp"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/developed_by_shouko" />
+
+    <TextView
+        android:textSize="15sp"
+        android:layout_marginTop="5sp"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimary"
+        android:text="@string/licensed_under_mit"
+        android:onClick="openRepo"/>
+
+</androidx.appcompat.widget.LinearLayoutCompat>
