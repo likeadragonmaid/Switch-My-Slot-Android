@@ -11,13 +11,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="5sp"
-        android:text="@string/hal_info" />
+        android:text="@string/hal_version" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="5sp"
-        android:text="@string/app_version_v0_1" />
+        android:text="@string/app_version" />
 
     <TextView
         android:id="@+id/numberOfSlotsTV"
