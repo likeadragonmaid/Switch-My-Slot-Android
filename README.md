@@ -4,12 +4,15 @@ Switch My Slot is an Android app that helps you switch between android A & B slo
 Library used: [bootctl](https://android.googlesource.com/platform/system/extras/+/master/bootctl)
 
 What is A/B partitioning?
+
 https://source.android.com/devices/tech/ota/ab
+
 https://www.xda-developers.com/how-a-b-partitions-and-seamless-updates-affect-custom-development-on-xda/
 
  ## Requirements
 1. Device with A/B partitions
-2. Root access on android device
+2. Device platform should be ARM64
+3. Root access on android device
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/shoukolate/Switch-My-Slot-Android/master/Screenshots/1.png">
