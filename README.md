@@ -9,10 +9,12 @@ https://source.android.com/devices/tech/ota/ab
 
 https://www.xda-developers.com/how-a-b-partitions-and-seamless-updates-affect-custom-development-on-xda/
 
- ## Requirements
+## Requirements
 1. Device with A/B partitions
 2. Device platform should be ARM64
 3. Root access on android device
+
+[Checkout SailfishOS version](https://github.com/shoukolate/Switch-My-Slot-SailfishOS)
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/shoukolate/Switch-My-Slot-Android/master/Screenshots/1.png">
