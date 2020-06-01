@@ -1,7 +1,7 @@
 # Switch My Slot
 Switch My Slot is an Android app that helps you switch between android A & B slots easily without having to enter commands in adb or fastboot shell. You don't even need TWRP recovery to use it.
 
-Library used: [bootctl](https://android.googlesource.com/platform/system/extras/+/master/bootctl)
+Library being manipulated by the app: [bootctl](https://android.googlesource.com/platform/system/extras/+/master/bootctl)
 
 What is A/B partitioning?
 
