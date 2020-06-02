@@ -65,40 +65,39 @@ public class MainActivity extends AppCompatActivity {
             DataInputStream phoneSupportedOrNotProcessOUT = new DataInputStream(phoneSupportedOrNotProcess.getInputStream());
             if (phoneSupportedOrNotProcessOUT.equals("")){
                 Toast.makeText(this, "This is not an A/B device!", Toast.LENGTH_LONG).show();
+            } else {
+                Process halInfoProcess;
+                halInfoProcess = Runtime.getRuntime().exec("su -c bootctl hal-info");
+                DataInputStream halinfoOUT = new DataInputStream(halInfoProcess.getInputStream());
+                halInfoTV.setText(halinfoOUT.readLine());
+
+                Process numberOfSlotsProcess;
+                numberOfSlotsProcess = Runtime.getRuntime().exec("su -c bootctl get-number-slots");
+                DataInputStream numberOfSlotsProcessOUT = new DataInputStream(numberOfSlotsProcess.getInputStream());
+                numberOfSlotsTV.setText("Number of slots: " + numberOfSlotsProcessOUT.readLine());
+
+                Process currentSlotProcess;
+                currentSlotProcess = Runtime.getRuntime().exec("su -c bootctl get-current-slot");
+                DataInputStream currentSlotProcessOUT = new DataInputStream(currentSlotProcess.getInputStream());
+
+                currentSlot = Integer.parseInt(currentSlotProcessOUT.readLine());
+                if (currentSlot == 0) {
+                    convertedSlotNumberToAlphabet = "A";
+                    button.setText("Switch Slot to B");
+                }
+
+                if (currentSlot == 1) {
+                    convertedSlotNumberToAlphabet = "B";
+                    button.setText("Switch Slot to A");
+                }
+
+                currentSlotTV.setText("Current slot: " + convertedSlotNumberToAlphabet);
+
+                Process CurrentSlotSuffixProcess;
+                CurrentSlotSuffixProcess = Runtime.getRuntime().exec("su -c bootctl get-suffix " + currentSlot);
+                DataInputStream CurrentSlotSuffixProcessOUT = new DataInputStream(CurrentSlotSuffixProcess.getInputStream());
+                CurrentSlotSuffixTV.setText("Current slot suffix: " + CurrentSlotSuffixProcessOUT.readLine());
             }
-
-            Process halInfoProcess;
-            halInfoProcess = Runtime.getRuntime().exec("su -c bootctl hal-info");
-            DataInputStream halinfoOUT = new DataInputStream(halInfoProcess.getInputStream());
-            halInfoTV.setText(halinfoOUT.readLine());
-
-            Process numberOfSlotsProcess;
-            numberOfSlotsProcess = Runtime.getRuntime().exec("su -c bootctl get-number-slots");
-            DataInputStream numberOfSlotsProcessOUT = new DataInputStream(numberOfSlotsProcess.getInputStream());
-            numberOfSlotsTV.setText("Number of slots: " + numberOfSlotsProcessOUT.readLine());
-
-            Process currentSlotProcess;
-            currentSlotProcess = Runtime.getRuntime().exec("su -c bootctl get-current-slot");
-            DataInputStream currentSlotProcessOUT = new DataInputStream(currentSlotProcess.getInputStream());
-
-            currentSlot = Integer.parseInt(currentSlotProcessOUT.readLine());
-            if (currentSlot == 0) {
-                convertedSlotNumberToAlphabet = "A";
-                button.setText("Switch Slot to B");
-            }
-
-            if (currentSlot == 1) {
-                convertedSlotNumberToAlphabet = "B";
-                button.setText("Switch Slot to A");
-            }
-
-            currentSlotTV.setText("Current slot: " + convertedSlotNumberToAlphabet);
-
-            Process CurrentSlotSuffixProcess;
-            CurrentSlotSuffixProcess = Runtime.getRuntime().exec("su -c bootctl get-suffix " + currentSlot);
-            DataInputStream CurrentSlotSuffixProcessOUT = new DataInputStream(CurrentSlotSuffixProcess.getInputStream());
-            CurrentSlotSuffixTV.setText("Current slot suffix: " + CurrentSlotSuffixProcessOUT.readLine());
-
         } catch (IOException e) {
             e.printStackTrace();
         }
