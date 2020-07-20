@@ -27,14 +27,17 @@
 package org.dynamicsoft.switchmyslot;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.DataInputStream;
@@ -64,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
             phoneSupportedOrNotProcess = Runtime.getRuntime().exec("getprop | grep suffix");
             DataInputStream phoneSupportedOrNotProcessOUT = new DataInputStream(phoneSupportedOrNotProcess.getInputStream());
             if (phoneSupportedOrNotProcessOUT.equals("")){
-                Toast.makeText(this, "This is not an A/B device!", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getString(R.string.error_ab_device), Toast.LENGTH_LONG).show(); //This is not an A/B device!
             } else {
                 Process halInfoProcess;
                 halInfoProcess = Runtime.getRuntime().exec("su -c bootctl hal-info");
@@ -74,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
                 Process numberOfSlotsProcess;
                 numberOfSlotsProcess = Runtime.getRuntime().exec("su -c bootctl get-number-slots");
                 DataInputStream numberOfSlotsProcessOUT = new DataInputStream(numberOfSlotsProcess.getInputStream());
-                numberOfSlotsTV.setText("Number of slots: " + numberOfSlotsProcessOUT.readLine());
+                numberOfSlotsTV.setText(getString(R.string.number_of_slots) + " " + numberOfSlotsProcessOUT.readLine()); //Number of slots:
 
                 Process currentSlotProcess;
                 currentSlotProcess = Runtime.getRuntime().exec("su -c bootctl get-current-slot");
@@ -83,20 +86,20 @@ public class MainActivity extends AppCompatActivity {
                 currentSlot = Integer.parseInt(currentSlotProcessOUT.readLine());
                 if (currentSlot == 0) {
                     convertedSlotNumberToAlphabet = "A";
-                    button.setText("Switch Slot to B");
+                    button.setText(getString(R.string.switch_slot_to) + " B"); //"Switch Slot to B"
                 }
 
                 if (currentSlot == 1) {
                     convertedSlotNumberToAlphabet = "B";
-                    button.setText("Switch Slot to A");
+                    button.setText(getString(R.string.switch_slot_to) + " A"); //"Switch Slot to A"
                 }
 
-                currentSlotTV.setText("Current slot: " + convertedSlotNumberToAlphabet);
+                currentSlotTV.setText(getString(R.string.current_slot)+ " " + convertedSlotNumberToAlphabet); //"Current slot: "
 
                 Process CurrentSlotSuffixProcess;
                 CurrentSlotSuffixProcess = Runtime.getRuntime().exec("su -c bootctl get-suffix " + currentSlot);
                 DataInputStream CurrentSlotSuffixProcessOUT = new DataInputStream(CurrentSlotSuffixProcess.getInputStream());
-                CurrentSlotSuffixTV.setText("Current slot suffix: " + CurrentSlotSuffixProcessOUT.readLine());
+                CurrentSlotSuffixTV.setText(getString(R.string.current_slot_suffix) + " " + CurrentSlotSuffixProcessOUT.readLine()); //"Current slot suffix: "
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -109,15 +112,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void switchSlot(View view) {
-        try {
-            if (currentSlot == 0) {
-                Runtime.getRuntime().exec("su -c bootctl set-active-boot-slot 1");
-            } if (currentSlot == 1) {
-                Runtime.getRuntime().exec("su -c bootctl set-active-boot-slot 0");
+        //Toast.makeText(this, getString(R.string.error_ab_device), Toast.LENGTH_LONG).show(); //This is not an A/B device!
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(android.R.string.dialog_alert_title);
+        builder.setMessage(getString(R.string.dialog_confirmation));
+
+        builder.setPositiveButton(getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                try {
+                    if (currentSlot == 0) {
+                        Runtime.getRuntime().exec("su -c bootctl set-active-boot-slot 1");
+                    } if (currentSlot == 1) {
+                        Runtime.getRuntime().exec("su -c bootctl set-active-boot-slot 0");
+                    }
+                    Runtime.getRuntime().exec("su -c reboot");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-            Runtime.getRuntime().exec("su -c reboot");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        });
+        builder.setNegativeButton(getString(android.R.string.no), null);
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }
