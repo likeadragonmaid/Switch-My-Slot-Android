@@ -9,5 +9,5 @@
     <string name="developed_by_shouko">Developed by Shouko</string>
     <string name="licensed_under_mit">Licensed under MIT</string>
     <string name="error_ab_device">This is not an A/B device!</string>
-    <string name="dialog_confirmation">Do you want switch your slot?</string>
+    <string name="dialog_confirmation">Do you want to switch the slot?</string>
 </resources>
