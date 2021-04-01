@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
                     } if (currentSlot == 1) {
                         Runtime.getRuntime().exec("su -c bootctl set-active-boot-slot 0");
                     }
-                    Runtime.getRuntime().exec("su -c reboot");
+                    Runtime.getRuntime().exec("su -c svc power reboot || reboot");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
