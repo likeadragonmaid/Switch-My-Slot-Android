@@ -97,7 +97,6 @@ public class MainActivity extends AppCompatActivity {
                 builder.setOnDismissListener(new DialogInterface.OnDismissListener() {  // Closing app on dismiss
                     @Override
                     public void onDismiss(DialogInterface dialog) {
-                        dialog.dismiss();
                         finish();
                         System.exit(0);
                     }
@@ -121,7 +120,6 @@ public class MainActivity extends AppCompatActivity {
                     builder.setOnDismissListener(new DialogInterface.OnDismissListener() {  // Closing app on dismiss
                         @Override
                         public void onDismiss(DialogInterface dialog) {
-                            dialog.dismiss();
                             finish();
                             System.exit(0);
                         }
