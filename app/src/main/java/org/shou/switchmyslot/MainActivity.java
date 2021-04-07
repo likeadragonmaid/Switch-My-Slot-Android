@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
             boolean supported = false;
             String unsupportedReason = "";
 
-            if (Integer.parseInt(android.os.Build.VERSION.SDK) < 24) {
+            if (Integer.parseInt(android.os.Build.VERSION.SDK) < 25) {
                 supported = false;
                 unsupportedReason = getString(R.string.error_min_api);
             } else {
