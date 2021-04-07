@@ -31,6 +31,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -69,37 +70,62 @@ public class MainActivity extends AppCompatActivity {
             if (phoneSupportedOrNotProcessOUT.equals("")){
                 Toast.makeText(this, getString(R.string.error_ab_device), Toast.LENGTH_LONG).show(); //This is not an A/B device!
             } else {
-                Process halInfoProcess;
-                halInfoProcess = Runtime.getRuntime().exec("su -c bootctl hal-info");
-                DataInputStream halinfoOUT = new DataInputStream(halInfoProcess.getInputStream());
-                halInfoTV.setText(halinfoOUT.readLine());
+				Process bootctlCheckerProcess;
+                bootctlCheckerProcess = Runtime.getRuntime().exec("su -c if [ -x \"$(command -v bootctl)\" ]; then echo 1; else echo 0; fi");
+                DataInputStream bootctlCheckerProcessOUT = new DataInputStream(bootctlCheckerProcess.getInputStream());
+                String checkerOut = bootctlCheckerProcessOUT.readLine();
 
-                Process numberOfSlotsProcess;
-                numberOfSlotsProcess = Runtime.getRuntime().exec("su -c bootctl get-number-slots");
-                DataInputStream numberOfSlotsProcessOUT = new DataInputStream(numberOfSlotsProcess.getInputStream());
-                numberOfSlotsTV.setText(getString(R.string.number_of_slots) + " " + numberOfSlotsProcessOUT.readLine()); //Number of slots:
+                if (checkerOut.equals("0")) { // if bootctl is not available
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                    builder.setTitle(getString(R.string.dialog_error_title));
+                    builder.setMessage(getString(R.string.dialog_bootctl_missing));
+                    builder.setPositiveButton(getString(android.R.string.ok), null);
 
-                Process currentSlotProcess;
-                currentSlotProcess = Runtime.getRuntime().exec("su -c bootctl get-current-slot");
-                DataInputStream currentSlotProcessOUT = new DataInputStream(currentSlotProcess.getInputStream());
+                    builder.setOnDismissListener(new DialogInterface.OnDismissListener() {  // Closing app on dismiss
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                            dialog.dismiss();
+                            finish();
+                            System.exit(0);
+                        }
+                    });
 
-                currentSlot = Integer.parseInt(currentSlotProcessOUT.readLine());
-                if (currentSlot == 0) {
-                    convertedSlotNumberToAlphabet = "A";
-                    button.setText(getString(R.string.switch_slot_to) + " B"); //"Switch Slot to B"
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+
+                } else {  // bootctl is available
+                    Process halInfoProcess;
+                    halInfoProcess = Runtime.getRuntime().exec("su -c bootctl hal-info");
+                    DataInputStream halinfoOUT = new DataInputStream(halInfoProcess.getInputStream());
+                    halInfoTV.setText(halinfoOUT.readLine());
+
+                    Process numberOfSlotsProcess;
+                    numberOfSlotsProcess = Runtime.getRuntime().exec("su -c bootctl get-number-slots");
+                    DataInputStream numberOfSlotsProcessOUT = new DataInputStream(numberOfSlotsProcess.getInputStream());
+                    numberOfSlotsTV.setText(getString(R.string.number_of_slots) + " " + numberOfSlotsProcessOUT.readLine()); //Number of slots:
+
+                    Process currentSlotProcess;
+                    currentSlotProcess = Runtime.getRuntime().exec("su -c bootctl get-current-slot");
+                    DataInputStream currentSlotProcessOUT = new DataInputStream(currentSlotProcess.getInputStream());
+
+                    currentSlot = Integer.parseInt(currentSlotProcessOUT.readLine());
+                    if (currentSlot == 0) {
+                        convertedSlotNumberToAlphabet = "A";
+                        button.setText(getString(R.string.switch_slot_to) + " B"); //"Switch Slot to B"
+                    }
+
+                    if (currentSlot == 1) {
+                        convertedSlotNumberToAlphabet = "B";
+                        button.setText(getString(R.string.switch_slot_to) + " A"); //"Switch Slot to A"
+                    }
+
+                    currentSlotTV.setText(getString(R.string.current_slot) + " " + convertedSlotNumberToAlphabet); //"Current slot: "
+
+                    Process CurrentSlotSuffixProcess;
+                    CurrentSlotSuffixProcess = Runtime.getRuntime().exec("su -c bootctl get-suffix " + currentSlot);
+                    DataInputStream CurrentSlotSuffixProcessOUT = new DataInputStream(CurrentSlotSuffixProcess.getInputStream());
+                    CurrentSlotSuffixTV.setText(getString(R.string.current_slot_suffix) + " " + CurrentSlotSuffixProcessOUT.readLine()); //"Current slot suffix: "
                 }
-
-                if (currentSlot == 1) {
-                    convertedSlotNumberToAlphabet = "B";
-                    button.setText(getString(R.string.switch_slot_to) + " A"); //"Switch Slot to A"
-                }
-
-                currentSlotTV.setText(getString(R.string.current_slot)+ " " + convertedSlotNumberToAlphabet); //"Current slot: "
-
-                Process CurrentSlotSuffixProcess;
-                CurrentSlotSuffixProcess = Runtime.getRuntime().exec("su -c bootctl get-suffix " + currentSlot);
-                DataInputStream CurrentSlotSuffixProcessOUT = new DataInputStream(CurrentSlotSuffixProcess.getInputStream());
-                CurrentSlotSuffixTV.setText(getString(R.string.current_slot_suffix) + " " + CurrentSlotSuffixProcessOUT.readLine()); //"Current slot suffix: "
             }
         } catch (IOException e) {
             e.printStackTrace();

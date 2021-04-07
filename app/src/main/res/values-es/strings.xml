@@ -10,4 +10,6 @@
     <string name="licensed_under_mit">Bajo licencia MIT</string>
     <string name="error_ab_device">Este no es un dispositivo A/B!</string>
     <string name="dialog_confirmation">¿Quieres cambiar de slot?</string>
+	<string name="dialog_error_title">Error</string>
+	<string name="dialog_bootctl_missing">Falta la utilidad Bootctl</string>
 </resources>
