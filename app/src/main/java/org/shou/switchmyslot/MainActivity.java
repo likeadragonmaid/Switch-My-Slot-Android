@@ -1,7 +1,7 @@
 /********************************************************************************************
  org/dynamicsoft/switchmyslot/MainActivity.java: MainActivity for Switch My Slot Android App
 
- Copyright (C) 2020 Shouko
+ Copyright (C) 2010 - 2021 Shou
 
  MIT License
 
@@ -24,17 +24,17 @@
  SOFTWARE.
  */
 
-package org.dynamicsoft.switchmyslot;
+package org.shou.switchmyslot;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
     TextView halInfoTV, numberOfSlotsTV, currentSlotTV, CurrentSlotSuffixTV;
     int currentSlot;
-    String convertedSlotNumberToAlphabet = null, path;
+    String convertedSlotNumberToAlphabet = null;
     Button button;
 
     @SuppressLint("SetTextI18n")
@@ -61,14 +61,53 @@ public class MainActivity extends AppCompatActivity {
         CurrentSlotSuffixTV = findViewById(R.id.CurrentSlotSuffixTV);
         button = findViewById(R.id.button);
 
-        try {
-            Process phoneSupportedOrNotProcess;
-            phoneSupportedOrNotProcess = Runtime.getRuntime().exec("getprop | grep suffix");
-            DataInputStream phoneSupportedOrNotProcessOUT = new DataInputStream(phoneSupportedOrNotProcess.getInputStream());
-            if (phoneSupportedOrNotProcessOUT.equals("")){
-                Toast.makeText(this, getString(R.string.error_ab_device), Toast.LENGTH_LONG).show(); //This is not an A/B device!
+        try { //check if device is A/B or A only
+            Process phoneSupportedOrNotProcess1, phoneSupportedOrNotProcess2, phoneSupportedOrNotProcess3, phoneSupportedOrNotProcess4;
+            phoneSupportedOrNotProcess1 = Runtime.getRuntime().exec("getprop ro.virtual_ab.enabled");
+            phoneSupportedOrNotProcess2 = Runtime.getRuntime().exec("getprop ro.virtual_ab.retrofit");
+            phoneSupportedOrNotProcess3 = Runtime.getRuntime().exec("getprop ro.boot.slot_suffix");
+            phoneSupportedOrNotProcess4 = Runtime.getRuntime().exec("getprop ro.virtual_ab.retrofit");
+
+            DataInputStream OUT1 = new DataInputStream(phoneSupportedOrNotProcess1.getInputStream());
+            DataInputStream OUT2 = new DataInputStream(phoneSupportedOrNotProcess2.getInputStream());
+            DataInputStream OUT3 = new DataInputStream(phoneSupportedOrNotProcess3.getInputStream());
+            DataInputStream OUT4 = new DataInputStream(phoneSupportedOrNotProcess4.getInputStream());
+
+            boolean supported = false;
+
+            if (Integer.parseInt(android.os.Build.VERSION.SDK) < 26) {
+                supported = false;
             } else {
-				Process bootctlCheckerProcess;
+                if (OUT1.equals("true") && OUT2.equals("false")) {
+                    supported = true;
+                }
+
+                if ((!OUT3.equals("") || !OUT3.equals(null)) || OUT4.equals("true")) {
+                    supported = true;
+                }
+            }
+
+            if (!supported) {
+                Log.e("Switch My Slot", "Error: Device unsupported. This is an A-only device.");
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle(getString(R.string.dialog_error_title));
+                builder.setMessage(getString(R.string.error_ab_device));
+                builder.setPositiveButton(getString(android.R.string.ok), null);
+
+                builder.setOnDismissListener(new DialogInterface.OnDismissListener() {  // Closing app on dismiss
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        dialog.dismiss();
+                        finish();
+                        System.exit(0);
+                    }
+                });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            } else {
+                Log.d("Switch My Slot", "Device supported! This is an A/B device.");
+                Process bootctlCheckerProcess;
                 bootctlCheckerProcess = Runtime.getRuntime().exec("su -c if [ -x \"$(command -v bootctl)\" ]; then echo 1; else echo 0; fi");
                 DataInputStream bootctlCheckerProcessOUT = new DataInputStream(bootctlCheckerProcess.getInputStream());
                 String checkerOut = bootctlCheckerProcessOUT.readLine();
@@ -131,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openRepo(View view) {
-        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/shoukolate/Switch-My-Slot-Android"));
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/gibcheesepuffs/Switch-My-Slot-Android"));
         startActivity(browserIntent);
     }
 
@@ -148,7 +187,8 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     if (currentSlot == 0) {
                         Runtime.getRuntime().exec("su -c bootctl set-active-boot-slot 1");
-                    } if (currentSlot == 1) {
+                    }
+                    if (currentSlot == 1) {
                         Runtime.getRuntime().exec("su -c bootctl set-active-boot-slot 0");
                     }
                     Runtime.getRuntime().exec("su -c svc power reboot || reboot");

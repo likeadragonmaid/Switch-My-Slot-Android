@@ -21,5 +21,5 @@ https://www.xda-developers.com/how-a-b-partitions-and-seamless-updates-affect-cu
 
 <br>
 <p align="center">
-  <img src="https://raw.githubusercontent.com/roihershberg/Switch-My-Slot-Android/master/Screenshots/2.png">
+  <img src="https://raw.githubusercontent.com/gibcheesepuffs/Switch-My-Slot-Android/master/Screenshots/1.png">
 </p>
