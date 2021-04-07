@@ -9,6 +9,7 @@
     <string name="developed_by_shou">Developed by Shou</string>
     <string name="licensed_under_mit">Licensed under MIT</string>
     <string name="error_ab_device">This is not an A/B device!</string>
+    <string name="error_min_api">The minimum compatible version of Android is Nougat (7.0)</string>
     <string name="dialog_confirmation">Do you want to switch the slot?</string>
     <string name="dialog_error_title">Error</string>
     <string name="dialog_bootctl_missing">Bootctl utility is missing.</string>

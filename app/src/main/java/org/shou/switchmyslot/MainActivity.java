@@ -63,36 +63,29 @@ public class MainActivity extends AppCompatActivity {
         button = findViewById(R.id.button);
 
         try { //check if device is A/B or A only
-            Process phoneSupportedOrNotProcess1, phoneSupportedOrNotProcess2, phoneSupportedOrNotProcess3, phoneSupportedOrNotProcess4;
-            phoneSupportedOrNotProcess1 = Runtime.getRuntime().exec("getprop ro.virtual_ab.enabled");
-            phoneSupportedOrNotProcess2 = Runtime.getRuntime().exec("getprop ro.virtual_ab.retrofit");
-            phoneSupportedOrNotProcess3 = Runtime.getRuntime().exec("getprop ro.boot.slot_suffix");
-            phoneSupportedOrNotProcess4 = Runtime.getRuntime().exec("getprop ro.virtual_ab.retrofit");
+            Process phoneSupportedOrNotProcess = Runtime.getRuntime().exec("getprop ro.build.ab_update");
 
-            BufferedReader OUT1 = new BufferedReader(new InputStreamReader(phoneSupportedOrNotProcess1.getInputStream()));
-            BufferedReader OUT2 = new BufferedReader(new InputStreamReader(phoneSupportedOrNotProcess2.getInputStream()));
-            BufferedReader OUT3 = new BufferedReader(new InputStreamReader(phoneSupportedOrNotProcess3.getInputStream()));
-            BufferedReader OUT4 = new BufferedReader(new InputStreamReader(phoneSupportedOrNotProcess4.getInputStream()));
+            BufferedReader phoneSupportedOrNotProcessOUT = new BufferedReader(new InputStreamReader(phoneSupportedOrNotProcess.getInputStream()));
 
             boolean supported = false;
+            String unsupportedReason = "";
 
-            if (Integer.parseInt(android.os.Build.VERSION.SDK) < 26) {
+            if (Integer.parseInt(android.os.Build.VERSION.SDK) < 24) {
                 supported = false;
+                unsupportedReason = getString(R.string.error_min_api);
             } else {
-                if (OUT1.equals("true") && OUT2.equals("false")) {
+                if (phoneSupportedOrNotProcessOUT.readLine().equals("true")) {
                     supported = true;
-                }
-
-                if ((!OUT3.equals("") || !OUT3.equals(null)) || OUT4.equals("true")) {
-                    supported = true;
+                } else {
+                    unsupportedReason = getString(R.string.error_ab_device);
                 }
             }
 
             if (!supported) {
-                Log.e("Switch My Slot", "Error: Device unsupported. This is an A-only device.");
+                Log.e("Switch My Slot", "Error: Device unsupported. " + unsupportedReason);
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setTitle(getString(R.string.dialog_error_title));
-                builder.setMessage(getString(R.string.error_ab_device));
+                builder.setMessage(unsupportedReason);
                 builder.setPositiveButton(getString(android.R.string.ok), null);
 
                 builder.setOnDismissListener(new DialogInterface.OnDismissListener() {  // Closing app on dismiss
