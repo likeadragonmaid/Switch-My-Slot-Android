@@ -39,8 +39,9 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.io.DataInputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -68,10 +69,10 @@ public class MainActivity extends AppCompatActivity {
             phoneSupportedOrNotProcess3 = Runtime.getRuntime().exec("getprop ro.boot.slot_suffix");
             phoneSupportedOrNotProcess4 = Runtime.getRuntime().exec("getprop ro.virtual_ab.retrofit");
 
-            DataInputStream OUT1 = new DataInputStream(phoneSupportedOrNotProcess1.getInputStream());
-            DataInputStream OUT2 = new DataInputStream(phoneSupportedOrNotProcess2.getInputStream());
-            DataInputStream OUT3 = new DataInputStream(phoneSupportedOrNotProcess3.getInputStream());
-            DataInputStream OUT4 = new DataInputStream(phoneSupportedOrNotProcess4.getInputStream());
+            BufferedReader OUT1 = new BufferedReader(new InputStreamReader(phoneSupportedOrNotProcess1.getInputStream()));
+            BufferedReader OUT2 = new BufferedReader(new InputStreamReader(phoneSupportedOrNotProcess2.getInputStream()));
+            BufferedReader OUT3 = new BufferedReader(new InputStreamReader(phoneSupportedOrNotProcess3.getInputStream()));
+            BufferedReader OUT4 = new BufferedReader(new InputStreamReader(phoneSupportedOrNotProcess4.getInputStream()));
 
             boolean supported = false;
 
@@ -97,7 +98,6 @@ public class MainActivity extends AppCompatActivity {
                 builder.setOnDismissListener(new DialogInterface.OnDismissListener() {  // Closing app on dismiss
                     @Override
                     public void onDismiss(DialogInterface dialog) {
-                        dialog.dismiss();
                         finish();
                         System.exit(0);
                     }
@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("Switch My Slot", "Device supported! This is an A/B device.");
                 Process bootctlCheckerProcess;
                 bootctlCheckerProcess = Runtime.getRuntime().exec("su -c if [ -x \"$(command -v bootctl)\" ]; then echo 1; else echo 0; fi");
-                DataInputStream bootctlCheckerProcessOUT = new DataInputStream(bootctlCheckerProcess.getInputStream());
+                BufferedReader bootctlCheckerProcessOUT = new BufferedReader(new InputStreamReader(bootctlCheckerProcess.getInputStream()));
                 String checkerOut = bootctlCheckerProcessOUT.readLine();
 
                 if (checkerOut.equals("0")) { // if bootctl is not available
@@ -121,7 +121,6 @@ public class MainActivity extends AppCompatActivity {
                     builder.setOnDismissListener(new DialogInterface.OnDismissListener() {  // Closing app on dismiss
                         @Override
                         public void onDismiss(DialogInterface dialog) {
-                            dialog.dismiss();
                             finish();
                             System.exit(0);
                         }
@@ -133,17 +132,17 @@ public class MainActivity extends AppCompatActivity {
                 } else {  // bootctl is available
                     Process halInfoProcess;
                     halInfoProcess = Runtime.getRuntime().exec("su -c bootctl hal-info");
-                    DataInputStream halinfoOUT = new DataInputStream(halInfoProcess.getInputStream());
+                    BufferedReader halinfoOUT = new BufferedReader(new InputStreamReader(halInfoProcess.getInputStream()));
                     halInfoTV.setText(halinfoOUT.readLine());
 
                     Process numberOfSlotsProcess;
                     numberOfSlotsProcess = Runtime.getRuntime().exec("su -c bootctl get-number-slots");
-                    DataInputStream numberOfSlotsProcessOUT = new DataInputStream(numberOfSlotsProcess.getInputStream());
+                    BufferedReader numberOfSlotsProcessOUT = new BufferedReader(new InputStreamReader(numberOfSlotsProcess.getInputStream()));
                     numberOfSlotsTV.setText(getString(R.string.number_of_slots) + " " + numberOfSlotsProcessOUT.readLine()); //Number of slots:
 
                     Process currentSlotProcess;
                     currentSlotProcess = Runtime.getRuntime().exec("su -c bootctl get-current-slot");
-                    DataInputStream currentSlotProcessOUT = new DataInputStream(currentSlotProcess.getInputStream());
+                    BufferedReader currentSlotProcessOUT = new BufferedReader(new InputStreamReader(currentSlotProcess.getInputStream()));
 
                     currentSlot = Integer.parseInt(currentSlotProcessOUT.readLine());
                     if (currentSlot == 0) {
@@ -160,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
 
                     Process CurrentSlotSuffixProcess;
                     CurrentSlotSuffixProcess = Runtime.getRuntime().exec("su -c bootctl get-suffix " + currentSlot);
-                    DataInputStream CurrentSlotSuffixProcessOUT = new DataInputStream(CurrentSlotSuffixProcess.getInputStream());
+                    BufferedReader CurrentSlotSuffixProcessOUT = new BufferedReader(new InputStreamReader(CurrentSlotSuffixProcess.getInputStream()));
                     CurrentSlotSuffixTV.setText(getString(R.string.current_slot_suffix) + " " + CurrentSlotSuffixProcessOUT.readLine()); //"Current slot suffix: "
                 }
             }
