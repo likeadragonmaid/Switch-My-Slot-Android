@@ -163,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
                     CurrentSlotSuffixTV.setText(getString(R.string.current_slot_suffix) + " " + CurrentSlotSuffixProcessOUT.readLine()); //"Current slot suffix: "
                 }
             }
-        } catch (IOException e) {
+        } catch (IOException | NullPointerException e) {
             e.printStackTrace();
         }
     }
