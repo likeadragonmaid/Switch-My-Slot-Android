@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="developed_by_shouko">Desarrollado por Shouko</string>
+    <string name="developed_by_shou">Desarrollado por Shou</string>
     <string name="number_of_slots">Numero de slots:</string>
     <string name="app_version">Versión de la app: v0.6</string>
     <string name="current_slot">Slot activo:</string>
@@ -10,6 +10,6 @@
     <string name="licensed_under_mit">Bajo licencia MIT</string>
     <string name="error_ab_device">Este no es un dispositivo A/B!</string>
     <string name="dialog_confirmation">¿Quieres cambiar de slot?</string>
-	<string name="dialog_error_title">Error</string>
-	<string name="dialog_bootctl_missing">Falta la utilidad Bootctl</string>
+    <string name="dialog_error_title">Error</string>
+    <string name="dialog_bootctl_missing">Falta la utilidad Bootctl</string>
 </resources>

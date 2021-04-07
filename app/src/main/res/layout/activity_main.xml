@@ -78,10 +78,10 @@
                 android:id="@+id/developedTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/developed_by_shouko" />
+                android:text="@string/developed_by_shou" />
 
             <Space
-                android:layout_width="8dp"
+                android:layout_width="2dp"
                 android:layout_height="match_parent" />
 
             <TextView
@@ -104,7 +104,8 @@
                 android:text="@string/licensed_under_mit"
                 android:textAlignment="center"
                 android:textColor="@color/colorPrimary"
-                android:textSize="15sp" />
+                android:textSize="15sp"
+                android:gravity="center_horizontal" />
 
         </TableRow>
 
