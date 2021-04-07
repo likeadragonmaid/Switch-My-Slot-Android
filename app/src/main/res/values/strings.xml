@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name" translatable="false">Switch My Slot</string>
     <string name="hal_version">HAL Version:</string>
-    <string name="app_version">App Version: v0.5</string>
+    <string name="app_version">App Version: v0.6</string>
     <string name="number_of_slots">Number of slots:</string>
     <string name="current_slot_suffix">Current slot suffix:</string>
     <string name="switch_slot_to">Switch Slot to</string>
@@ -10,4 +10,6 @@
     <string name="licensed_under_mit">Licensed under MIT</string>
     <string name="error_ab_device">This is not an A/B device!</string>
     <string name="dialog_confirmation">Do you want to switch the slot?</string>
+	<string name="dialog_error_title">Error</string>
+	<string name="dialog_bootctl_missing">Bootctl utility is missing</string>
 </resources>

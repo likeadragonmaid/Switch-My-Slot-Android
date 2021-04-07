@@ -13,11 +13,13 @@ https://www.xda-developers.com/how-a-b-partitions-and-seamless-updates-affect-cu
 1. Device with A/B partitions
 2. Device platform should be ARM64
 3. Root access on android device
+* If you are using MagiskSU flash this [module](https://github.com/roihershberg/bootctl-binary) to mount the bootctl utility.
 
 [Checkout SailfishOS version](https://github.com/SailfishOS-MI-A2/Switch-My-Slot-SailfishOS)
 
 [Checkout Ubuntu Touch version](https://github.com/ubports-xiaomi-sdm660/Switch-My-Slot-Ubuntu-Touch)
 
+<br>
 <p align="center">
-  <img src="https://raw.githubusercontent.com/shoukolate/Switch-My-Slot-Android/master/Screenshots/1.png">
+  <img src="https://raw.githubusercontent.com/roihershberg/Switch-My-Slot-Android/master/Screenshots/2.png">
 </p>
