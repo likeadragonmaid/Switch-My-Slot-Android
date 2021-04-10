@@ -280,7 +280,7 @@ public class MainActivity extends AppCompatActivity {
         boolean supported = false;
         String unsupportedReason = "";
 
-        if (Integer.parseInt(Build.VERSION.SDK) < Build.VERSION_CODES.N_MR1) {  // Seamless A/B updates are only from Android Nougat 7.1
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N_MR1) {  // Seamless A/B updates are only from Android Nougat 7.1
             unsupportedReason = getString(R.string.error_min_api);
         } else if (ABChecker.check() == null) {  // if the device don't support the conventional or virtual A/B partitions
             unsupportedReason = getString(R.string.error_ab_device);
