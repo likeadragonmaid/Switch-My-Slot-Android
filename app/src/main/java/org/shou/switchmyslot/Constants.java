@@ -32,6 +32,8 @@ public final class Constants {
     public static final int NUMBER_OF_SLOTS_COMMAND_ID = 1;
     public static final int CURRENT_SLOT_COMMAND_ID = 2;
     public static final int CURRENT_SLOT_SUFFIX_COMMAND_ID = 3;
+    public static final int SET_ACTIVE_SLOT_COMMAND_ID = 4;
+    public static final int REBOOT_COMMAND_ID = 5;
     public static final String STATE_HAL_INFO = "halInfo";
     public static final String STATE_NUMBER_OF_SLOTS = "numberOfSlots";
     public static final String STATE_CURRENT_SLOT = "currentSlot";

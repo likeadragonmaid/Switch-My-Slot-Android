@@ -342,8 +342,8 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 // Creating commands
-                setActiveSlotCommand = new Command(4, false, setActiveSlotCommandText);
-                rebootCommand = new Command(5, false, "svc power reboot || reboot");
+                setActiveSlotCommand = new Command(Constants.SET_ACTIVE_SLOT_COMMAND_ID, false, setActiveSlotCommandText);
+                rebootCommand = new Command(Constants.REBOOT_COMMAND_ID, false, "svc power reboot || reboot");
 
                 try {
                     
