@@ -142,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void commandOutput(int id, String line) {
                                 currentSlotSuffix = line;
-                                informationGathered = true;  // Releases main thread to assign the information
+                                informationGathered = true;  // Releases main thread to assign the information to the views
                                 super.commandOutput(id, line);
                             }
                         };
