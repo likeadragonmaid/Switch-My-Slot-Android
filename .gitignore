@@ -1,6 +1,6 @@
 # Built application files
 *.apk
-*.aar
+# *.aar - needed for RootTools library
 *.ap_
 *.aab
 

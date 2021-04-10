@@ -26,6 +26,11 @@ https://www.xda-developers.com/how-a-b-partitions-and-seamless-updates-affect-cu
 <p align="center">
   <img src="https://raw.githubusercontent.com/gibcheesepuffs/Switch-My-Slot-Android/master/Screenshots/1.png">
 </p>
+<br>
+
+## Credits
+* [RootTools](https://github.com/Stericson/RootTools) and [RootShell](https://github.com/Stericson/RootShell) libraries.
+* [Treble Check](https://github.com/kevintresuelo/treble) app for the A/B partitions checking mechanism.
 
 ## Contributors ✨
 
