@@ -401,8 +401,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     /**
-     * Exits the app by finishing the activity and then calling the System.exit function.
-     * If the root shell is open then closing it.
+     * Exits the app by finishing the activity
      *
      */
     public void exitApp() {
