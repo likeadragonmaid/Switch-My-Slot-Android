@@ -11,7 +11,7 @@ https://www.xda-developers.com/how-a-b-partitions-and-seamless-updates-affect-cu
 
 ## Requirements
 1. Device with A/B partitions
-2. Device platform should be ARM64
+2. Android version 7.1 or newer
 3. Root access on android device
 * If you are using MagiskSU flash this [module](https://github.com/roihershberg/bootctl-binary) to mount the bootctl utility.
 

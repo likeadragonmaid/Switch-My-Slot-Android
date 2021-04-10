@@ -39,8 +39,9 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.io.DataInputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -62,36 +63,29 @@ public class MainActivity extends AppCompatActivity {
         button = findViewById(R.id.button);
 
         try { //check if device is A/B or A only
-            Process phoneSupportedOrNotProcess1, phoneSupportedOrNotProcess2, phoneSupportedOrNotProcess3, phoneSupportedOrNotProcess4;
-            phoneSupportedOrNotProcess1 = Runtime.getRuntime().exec("getprop ro.virtual_ab.enabled");
-            phoneSupportedOrNotProcess2 = Runtime.getRuntime().exec("getprop ro.virtual_ab.retrofit");
-            phoneSupportedOrNotProcess3 = Runtime.getRuntime().exec("getprop ro.boot.slot_suffix");
-            phoneSupportedOrNotProcess4 = Runtime.getRuntime().exec("getprop ro.virtual_ab.retrofit");
+            Process phoneSupportedOrNotProcess = Runtime.getRuntime().exec("getprop ro.build.ab_update");
 
-            DataInputStream OUT1 = new DataInputStream(phoneSupportedOrNotProcess1.getInputStream());
-            DataInputStream OUT2 = new DataInputStream(phoneSupportedOrNotProcess2.getInputStream());
-            DataInputStream OUT3 = new DataInputStream(phoneSupportedOrNotProcess3.getInputStream());
-            DataInputStream OUT4 = new DataInputStream(phoneSupportedOrNotProcess4.getInputStream());
+            BufferedReader phoneSupportedOrNotProcessOUT = new BufferedReader(new InputStreamReader(phoneSupportedOrNotProcess.getInputStream()));
 
             boolean supported = false;
+            String unsupportedReason = "";
 
-            if (Integer.parseInt(android.os.Build.VERSION.SDK) < 26) {
+            if (Integer.parseInt(android.os.Build.VERSION.SDK) < 25) {
                 supported = false;
+                unsupportedReason = getString(R.string.error_min_api);
             } else {
-                if (OUT1.equals("true") && OUT2.equals("false")) {
+                if (phoneSupportedOrNotProcessOUT.readLine().equals("true")) {
                     supported = true;
-                }
-
-                if ((!OUT3.equals("") || !OUT3.equals(null)) || OUT4.equals("true")) {
-                    supported = true;
+                } else {
+                    unsupportedReason = getString(R.string.error_ab_device);
                 }
             }
 
             if (!supported) {
-                Log.e("Switch My Slot", "Error: Device unsupported. This is an A-only device.");
+                Log.e("Switch My Slot", "Error: Device unsupported. " + unsupportedReason);
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setTitle(getString(R.string.dialog_error_title));
-                builder.setMessage(getString(R.string.error_ab_device));
+                builder.setMessage(unsupportedReason);
                 builder.setPositiveButton(getString(android.R.string.ok), null);
 
                 builder.setOnDismissListener(new DialogInterface.OnDismissListener() {  // Closing app on dismiss
@@ -108,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("Switch My Slot", "Device supported! This is an A/B device.");
                 Process bootctlCheckerProcess;
                 bootctlCheckerProcess = Runtime.getRuntime().exec("su -c if [ -x \"$(command -v bootctl)\" ]; then echo 1; else echo 0; fi");
-                DataInputStream bootctlCheckerProcessOUT = new DataInputStream(bootctlCheckerProcess.getInputStream());
+                BufferedReader bootctlCheckerProcessOUT = new BufferedReader(new InputStreamReader(bootctlCheckerProcess.getInputStream()));
                 String checkerOut = bootctlCheckerProcessOUT.readLine();
 
                 if (checkerOut.equals("0")) { // if bootctl is not available
@@ -131,17 +125,17 @@ public class MainActivity extends AppCompatActivity {
                 } else {  // bootctl is available
                     Process halInfoProcess;
                     halInfoProcess = Runtime.getRuntime().exec("su -c bootctl hal-info");
-                    DataInputStream halinfoOUT = new DataInputStream(halInfoProcess.getInputStream());
+                    BufferedReader halinfoOUT = new BufferedReader(new InputStreamReader(halInfoProcess.getInputStream()));
                     halInfoTV.setText(halinfoOUT.readLine());
 
                     Process numberOfSlotsProcess;
                     numberOfSlotsProcess = Runtime.getRuntime().exec("su -c bootctl get-number-slots");
-                    DataInputStream numberOfSlotsProcessOUT = new DataInputStream(numberOfSlotsProcess.getInputStream());
+                    BufferedReader numberOfSlotsProcessOUT = new BufferedReader(new InputStreamReader(numberOfSlotsProcess.getInputStream()));
                     numberOfSlotsTV.setText(getString(R.string.number_of_slots) + " " + numberOfSlotsProcessOUT.readLine()); //Number of slots:
 
                     Process currentSlotProcess;
                     currentSlotProcess = Runtime.getRuntime().exec("su -c bootctl get-current-slot");
-                    DataInputStream currentSlotProcessOUT = new DataInputStream(currentSlotProcess.getInputStream());
+                    BufferedReader currentSlotProcessOUT = new BufferedReader(new InputStreamReader(currentSlotProcess.getInputStream()));
 
                     currentSlot = Integer.parseInt(currentSlotProcessOUT.readLine());
                     if (currentSlot == 0) {
@@ -158,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
 
                     Process CurrentSlotSuffixProcess;
                     CurrentSlotSuffixProcess = Runtime.getRuntime().exec("su -c bootctl get-suffix " + currentSlot);
-                    DataInputStream CurrentSlotSuffixProcessOUT = new DataInputStream(CurrentSlotSuffixProcess.getInputStream());
+                    BufferedReader CurrentSlotSuffixProcessOUT = new BufferedReader(new InputStreamReader(CurrentSlotSuffixProcess.getInputStream()));
                     CurrentSlotSuffixTV.setText(getString(R.string.current_slot_suffix) + " " + CurrentSlotSuffixProcessOUT.readLine()); //"Current slot suffix: "
                 }
             }

@@ -5,7 +5,7 @@ android {
     buildToolsVersion '30.0.1'
 
     defaultConfig {
-        applicationId "org.dynamicsoft.switchmyslot"
+        applicationId "org.shou.switchmyslot"
         minSdkVersion 14
         targetSdkVersion 30
         versionCode 6
