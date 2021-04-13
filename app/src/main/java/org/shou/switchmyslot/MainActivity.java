@@ -211,18 +211,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     /**
-     * Finishing activity, closing the shell and exiting JVM (otherwise there's a bug when re-opening the app)
-     *
-     */
-    @Override
-    public void onBackPressed() {
-        exitApp();
-        model.onCleared();
-        System.exit(0);  // Completely terminates the process. Fixes the blank screen when opening the app after back button pressed.
-    }
-
-
-    /**
      * Dismissing dialogs when activity is destroyed
      *
      */
