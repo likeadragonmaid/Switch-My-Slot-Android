@@ -115,8 +115,19 @@ public final class RootTools {
      * @return boolean to indicate whether the binary is installed and has appropriate permissions.
      */
     public static boolean checkUtil(String util) {
-
         return getInternals().checkUtil(util);
+    }
+
+    /**
+     * This will check a given binary, determine if it exists and determine that
+     * it has the execute permission in some permission group.
+     *
+     * @param util Name of the utility to check.
+     * @return boolean to indicate whether the binary is installed and has execute permission.
+     */
+    public static boolean checkUtilExecutable(String util) {
+
+        return getInternals().checkUtilExecutable(util);
     }
 
     /**

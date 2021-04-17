@@ -269,7 +269,7 @@ public final class RootToolsInternalMethods {
 
     /**
      * This will check a given binary, determine if it exists and determine that
-     * it has either the permissions 750, 755, 775, or 777.
+     * it has either the permissions 755, 775, or 777.
      *
      * @param util Name of the utility to check.
      * @return boolean to indicate whether the binary is installed and has
@@ -292,11 +292,39 @@ public final class RootToolsInternalMethods {
                         permission = Integer.toString(permissions.getPermissions());
                     }
 
-                    if (permission.equals("750") || permission.equals("755") || permission.equals("777")
+                    if (permission.equals("755") || permission.equals("777")
                             || permission.equals("775")) {
                         RootTools.utilPath = path + "/" + util;
                         return true;
                     }
+                }
+            }
+        }
+
+        return false;
+
+    }
+
+    /**
+     * This will check a given binary, determine if it exists and determine that
+     * it has the execute permission in some permission group.
+     *
+     * @param util Name of the utility to check.
+     * @return boolean to indicate whether the binary is installed and has execute permission.
+     */
+    public boolean checkUtilExecutable(String util) {
+        List<String> foundPaths = RootShell.findBinary(util, true);
+        if (foundPaths.size() > 0) {
+
+            for (String path : foundPaths) {
+                Permissions permissions = RootTools
+                        .getFilePermissionsSymlinks(path + "/" + util);
+
+                if (permissions != null && (permissions.getUserPermissions().charAt(2) == 'x'
+                        || permissions.getGroupPermissions().charAt(2) == 'x'  || permissions.getOtherPermissions().charAt(2) == 'x')) {
+
+                    RootTools.utilPath = path + "/" + util;
+                    return true;
                 }
             }
         }
