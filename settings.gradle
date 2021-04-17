@@ -1,2 +1,4 @@
 rootProject.name='Switch My Slot'
+include ':RootShell'
+include ':RootTools'
 include ':app'

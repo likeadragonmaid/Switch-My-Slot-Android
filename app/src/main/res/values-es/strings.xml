@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="developed_by_shou">Desarrollado por Shou</string>
-    <string name="number_of_slots">Numero de slots:</string>
-    <string name="app_version">Versión de la app: v0.6</string>
-    <string name="current_slot">Slot activo:</string>
     <string name="hal_version">Versión de HAL:</string>
+    <string name="app_version">Versión de la app: v0.7</string>
+    <string name="number_of_slots">Numero de slots:</string>
     <string name="current_slot_suffix">Sufijo del slot activo:</string>
     <string name="switch_slot_to">Cambiar a slot</string>
+    <string name="current_slot">Slot activo:</string>
+    <string name="developed_by_shou">Desarrollado por Shou</string>
     <string name="licensed_under_mit">Bajo licencia MIT</string>
     <string name="error_ab_device">Este no es un dispositivo A/B!</string>
     <string name="error_min_api">La versión mínima compatible de Android es Nougat (7.1)</string>
+    <string name="error_bootctl_missing">Falta la utilidad Bootctl</string>
+    <string name="error_root_required">¡Se requiere acceso de root!</string>
+    <string name="error_root_denied">Otorgue acceso a la SU.</string>
     <string name="dialog_confirmation">¿Quieres cambiar de slot?</string>
     <string name="dialog_error_title">Error</string>
-    <string name="dialog_bootctl_missing">Falta la utilidad Bootctl</string>
 </resources>
