@@ -80,9 +80,10 @@ public class Utils {
             BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()));
 
             value = input.readLine();
+            input.close();
+
             if (!isNullOrBlank(value)) return value;
 
-            input.close();
         } catch (Exception err) {
             err.printStackTrace();
         }
