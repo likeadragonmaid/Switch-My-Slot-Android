@@ -274,7 +274,7 @@ public class MainActivity extends AppCompatActivity {
             unsupportedReason = getString(R.string.error_ab_device);
         } else if (!RootTools.isRootAvailable()) {  // if su binary is not available
             unsupportedReason = getString(R.string.error_root_required);
-        } else if (!RootTools.isAccessGiven()) {  // if user denied the su request
+        } else if (!RootTools.isAccessGiven(0, 0)) {  // if user denied the su request
             unsupportedReason = getString(R.string.error_root_denied);
         } else if (!RootTools.checkUtilExecutable("bootctl")) {  // checking bootctl availability
             unsupportedReason = getString(R.string.error_bootctl_missing);
