@@ -8,8 +8,8 @@ android {
         applicationId "org.shou.switchmyslot"
         minSdkVersion 25
         targetSdkVersion 30
-        versionCode 7
-        versionName "0.7"
+        versionCode 8
+        versionName "0.7.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -30,7 +30,7 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel:$lifecycle_version"
     implementation project(':RootShell')
     implementation project(':RootTools')
-    testImplementation 'junit:junit:4.13'
+    testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 }

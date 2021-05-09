@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="hal_version">Versión de HAL:</string>
-    <string name="app_version">Versión de la app: v0.7</string>
+    <string name="app_version">Versión de la app: v0.7.1</string>
     <string name="number_of_slots">Numero de slots:</string>
     <string name="current_slot_suffix">Sufijo del slot activo:</string>
     <string name="switch_slot_to">Cambiar a slot</string>

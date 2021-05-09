@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name" translatable="false">Switch My Slot</string>
     <string name="hal_version">HAL Version:</string>
-    <string name="app_version">App Version: v0.7</string>
+    <string name="app_version">App Version: v0.7.1</string>
     <string name="number_of_slots">Number of slots:</string>
     <string name="current_slot_suffix">Current slot suffix:</string>
     <string name="switch_slot_to">Switch Slot to</string>
